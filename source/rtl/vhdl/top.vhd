@@ -250,11 +250,64 @@ begin
   --dir_red
   --dir_green
   --dir_blue
+  
+	process(dir_pixel_column) begin
+		
+		if(dir_pixel_column < "00001010001") then
+			dir_red <= "11111111";
+			dir_green <= "11111111";
+			dir_blue <= "11111111";
+		
+		elsif(dir_pixel_column < "00010100000") then
+			dir_red <= "11111111";
+			dir_green <= "11111111";
+			dir_blue <= "00000000";
+			
+		elsif(dir_pixel_column < "00011110000") then
+			dir_red <= "00000000";
+			dir_green <= "11111111";
+			dir_blue <= "11111111";
+		
+		elsif(dir_pixel_column < "00101000000") then
+			dir_red <= "00000000";
+			dir_green <= "11111111";
+			dir_blue <= "00000000";
+			
+		elsif(dir_pixel_column < "00110010000") then
+			dir_red <= "11111111";
+			dir_green <= "00000000";
+			dir_blue <= "11111111";
+			
+		elsif(dir_pixel_column < "00111100000") then
+			dir_red <= "11111111";
+			dir_green <= "00000000";
+			dir_blue <= "00000000";
+		
+		elsif(dir_pixel_column < "01000110000") then
+			dir_red <= "00000000";
+			dir_green <= "00000000";
+			dir_blue <= "11111111";
+		
+		else
+			dir_red <= "00000000";
+			dir_green <= "00000000";
+			dir_blue <= "00000000";
+		end if;
+		
+	end process;
+  
  
   -- koristeci signale realizovati logiku koja pise po TXT_MEM
   --char_address
   --char_value
   --char_we
+  
+  
+  process(vga_rst_n_s, pix_clock_s) begin
+		if(vga_rst_n_s = '0') then
+			
+  
+  end process;
   
   -- koristeci signale realizovati logiku koja pise po GRAPH_MEM
   --pixel_address

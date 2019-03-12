@@ -168,7 +168,7 @@ begin
   graphics_lenght <= conv_std_logic_vector(MEM_SIZE*8*8, GRAPH_MEM_ADDR_WIDTH);
   
   -- removed to inputs pin
-  direct_mode <= '1';
+  direct_mode <= '0';
   display_mode     <= "10";  -- 01 - text mode, 10 - graphics mode, 11 - text & graphics
   
   font_size        <= x"1";
@@ -305,14 +305,74 @@ begin
   
   process(vga_rst_n_s, pix_clock_s) begin
 		if(vga_rst_n_s = '0') then
-			
-  
+			char_address <= (others => '0');
+			char_we <= '1';
+		elsif (rising_edge(pix_clock_s)) then
+			if (char_we = '1') then
+				if(char_address > "00010010110000") then
+					char_address <= (others => '0');
+				else
+					char_address <= char_address + "00000000000001";
+				end if;
+			end if;
+		end if;			
   end process;
+  
+  char_value <= 	"001101" when char_address = "00000000101010" else
+						"001001" when char_address = "00000000101011" else
+						"001100" when char_address = "00000000101100" else
+						"001111" when char_address = "00000000101101" else
+						"010011" when char_address = "00000000101110" else
+						"001001" when char_address = "00000000110000" else
+						"000111" when char_address = "00000000110001" else
+						"001110" when char_address = "00000000110010" else
+						"001010" when char_address = "00000000110011" else
+						"000001" when char_address = "00000000110100" else
+						"010100" when char_address = "00000000110101" else
+						"001111" when char_address = "00000000110110" else
+						"010110" when char_address = "00000000110111" else
+						"001001" when char_address = "00000000111000" else
+						"000011" when char_address = "00000000111001" else
+						"010011" when char_address = "00000001010010" else
+						"001100" when char_address = "00000001010011" else
+						"001111" when char_address = "00000001010100" else
+						"000010" when char_address = "00000001010101" else
+						"001111" when char_address = "00000001010110" else
+						"000100" when char_address = "00000001010111" else
+						"000001" when char_address = "00000001011000" else
+						"001110" when char_address = "00000001011001" else
+						"001011" when char_address = "00000001011011" else
+						"001111" when char_address = "00000001011100" else
+						"010011" when char_address = "00000001011101" else
+						"010100" when char_address = "00000001011110" else
+						"001001" when char_address = "00000001011111" else
+						"000011" when char_address = "00000001100000" else
+						"100000";
   
   -- koristeci signale realizovati logiku koja pise po GRAPH_MEM
   --pixel_address
   --pixel_value
   --pixel_we
   
+ process(vga_rst_n_s, pix_clock_s) begin
+		if(vga_rst_n_s = '0') then
+			pixel_address <= (others => '0');
+			pixel_we <= '1';
+		elsif (rising_edge(pix_clock_s)) then
+			if (pixel_we = '1') then
+				if(pixel_address > "00000010010110000000") then
+					pixel_address <= (others => '0');
+				else
+					pixel_address <= pixel_address + "00000000000000000001";
+				end if;
+			end if;
+		end if;			
+  end process;
+
+
+	pixel_value <=	(others => '1') when pixel_address = "00000000000010000001" else
+						(others => '1') when pixel_address = "00000000000010010101"  else
+						(others => '1') when pixel_address = "00000000000010101001"  else
+						(others => '0');
   
 end rtl;

@@ -11,13 +11,13 @@
          <ClosedNode>/top - rtl ||samba03|nastavni_materijali|lprs2|vezbe|lab2|HDL|source|rtl|vhdl|top.vhd/vga_top_i - vga_top - rtl/vga_i - vga - rtl</ClosedNode>
       </ClosedNodes>
       <SelectedItems>
-         <SelectedItem>vga_i - vga - rtl (D:/materija/RA139-2016/lab2/source/rtl/vhdl/vga.vhd)</SelectedItem>
+         <SelectedItem>top - rtl (D:/materija/RA139-2016/lab2/source/rtl/vhdl/top.vhd)</SelectedItem>
       </SelectedItems>
-      <ScrollbarPosition orientation="vertical" >2</ScrollbarPosition>
+      <ScrollbarPosition orientation="vertical" >0</ScrollbarPosition>
       <ScrollbarPosition orientation="horizontal" >0</ScrollbarPosition>
       <ViewHeaderState orientation="horizontal" >000000ff000000000000000100000001000000000000000000000000000000000202000000010000000100000064000001f9000000020000000000000000000000000200000064ffffffff000000810000000300000002000001f90000000100000003000000000000000100000003</ViewHeaderState>
       <UserChangedColumnWidths orientation="horizontal" >true</UserChangedColumnWidths>
-      <CurrentItem>vga_i - vga - rtl (D:/materija/RA139-2016/lab2/source/rtl/vhdl/vga.vhd)</CurrentItem>
+      <CurrentItem>top - rtl (D:/materija/RA139-2016/lab2/source/rtl/vhdl/top.vhd)</CurrentItem>
    </ItemView>
    <ItemView engineview="SynthesisOnly" sourcetype="" guiview="Process" >
       <ClosedNodes>
@@ -54,7 +54,7 @@
       <SelectedItems/>
       <ScrollbarPosition orientation="vertical" >0</ScrollbarPosition>
       <ScrollbarPosition orientation="horizontal" >0</ScrollbarPosition>
-      <ViewHeaderState orientation="horizontal" >000000ff00000000000000010000000000000000010000000000000000000000000000000000000213000000010001000100000000000000000000000064ffffffff000000810000000000000001000002130000000100000000</ViewHeaderState>
+      <ViewHeaderState orientation="horizontal" >000000ff0000000000000001000000000000000001000000000000000000000000000000000000011c000000010001000100000000000000000000000064ffffffff0000008100000000000000010000011c0000000100000000</ViewHeaderState>
       <UserChangedColumnWidths orientation="horizontal" >false</UserChangedColumnWidths>
       <CurrentItem>work</CurrentItem>
    </ItemView>
@@ -67,13 +67,13 @@
          <ClosedNode>User Constraints</ClosedNode>
       </ClosedNodes>
       <SelectedItems>
-         <SelectedItem></SelectedItem>
+         <SelectedItem>Generate Programming File</SelectedItem>
       </SelectedItems>
       <ScrollbarPosition orientation="vertical" >0</ScrollbarPosition>
       <ScrollbarPosition orientation="horizontal" >0</ScrollbarPosition>
-      <ViewHeaderState orientation="horizontal" >000000ff00000000000000010000000100000000000000000000000000000000000000000000000213000000010000000100000000000000000000000064ffffffff000000810000000000000001000002130000000100000000</ViewHeaderState>
+      <ViewHeaderState orientation="horizontal" >000000ff0000000000000001000000010000000000000000000000000000000000000000000000011c000000010000000100000000000000000000000064ffffffff0000008100000000000000010000011c0000000100000000</ViewHeaderState>
       <UserChangedColumnWidths orientation="horizontal" >false</UserChangedColumnWidths>
-      <CurrentItem></CurrentItem>
+      <CurrentItem>Generate Programming File</CurrentItem>
    </ItemView>
    <ItemView engineview="BehavioralSim" guiview="Source" compilemode="AutoCompile" >
       <ClosedNodes>
@@ -140,12 +140,12 @@
          <ClosedNode>User Constraints</ClosedNode>
       </ClosedNodes>
       <SelectedItems>
-         <SelectedItem></SelectedItem>
+         <SelectedItem/>
       </SelectedItems>
       <ScrollbarPosition orientation="vertical" >0</ScrollbarPosition>
       <ScrollbarPosition orientation="horizontal" >0</ScrollbarPosition>
       <ViewHeaderState orientation="horizontal" >000000ff00000000000000010000000100000000000000000000000000000000000000000000000213000000010000000100000000000000000000000064ffffffff000000810000000000000001000002130000000100000000</ViewHeaderState>
       <UserChangedColumnWidths orientation="horizontal" >false</UserChangedColumnWidths>
-      <CurrentItem></CurrentItem>
+      <CurrentItem/>
    </ItemView>
 </Project>

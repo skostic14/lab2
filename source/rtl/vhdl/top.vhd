@@ -23,6 +23,8 @@ entity top is
   port (
     clk_i          : in  std_logic;
     reset_n_i      : in  std_logic;
+	 direct_mode_i  : in  std_logic;
+	 display_mode_i : in std_logic_vector(1 downto 0);
     -- vga
     vga_hsync_o    : out std_logic;
     vga_vsync_o    : out std_logic;
@@ -156,6 +158,11 @@ architecture rtl of top is
   signal dir_blue            : std_logic_vector(7 downto 0);
   signal dir_pixel_column    : std_logic_vector(10 downto 0);
   signal dir_pixel_row       : std_logic_vector(10 downto 0);
+  
+  signal clk_counter			 : std_logic_vector(24 downto 0);
+  signal offset				 : std_logic_vector(18 downto 0);
+  signal pix_offset			 : std_logic_vector(13 downto 0);
+  signal pix_clk_counter	 : std_logic_vector(24 downto 0);
 
 begin
 
@@ -168,8 +175,11 @@ begin
   graphics_lenght <= conv_std_logic_vector(MEM_SIZE*8*8, GRAPH_MEM_ADDR_WIDTH);
   
   -- removed to inputs pin
-  direct_mode <= '0';
-  display_mode     <= "10";  -- 01 - text mode, 10 - graphics mode, 11 - text & graphics
+  --direct_mode <= '0';
+  --display_mode     <= "10";  -- 01 - text mode, 10 - graphics mode, 11 - text & graphics
+  
+  --direct_mode <= direct_mode_i;
+  --display_mode <= display_mode_i;
   
   font_size        <= x"1";
   show_frame       <= '1';
@@ -211,14 +221,15 @@ begin
     clk_i              => clk_i,
     reset_n_i          => reset_n_i,
     --
-    direct_mode_i      => direct_mode,
+    direct_mode_i      => direct_mode_i,
     dir_red_i          => dir_red,
     dir_green_i        => dir_green,
     dir_blue_i         => dir_blue,
     dir_pixel_column_o => dir_pixel_column,
     dir_pixel_row_o    => dir_pixel_row,
+	 
     -- cfg
-    display_mode_i     => display_mode,  -- 01 - text mode, 10 - graphics mode, 11 - text & graphics
+    display_mode_i     => display_mode_i,  -- 01 - text mode, 10 - graphics mode, 11 - text & graphics
     -- text mode interface
     text_addr_i        => char_address,
     text_data_i        => char_value,
@@ -318,36 +329,59 @@ begin
 		end if;			
   end process;
   
-  char_value <= 	"001101" when char_address = "00000000101010" else
-						"001001" when char_address = "00000000101011" else
-						"001100" when char_address = "00000000101100" else
-						"001111" when char_address = "00000000101101" else
-						"010011" when char_address = "00000000101110" else
-						"001001" when char_address = "00000000110000" else
-						"000111" when char_address = "00000000110001" else
-						"001110" when char_address = "00000000110010" else
-						"001010" when char_address = "00000000110011" else
-						"000001" when char_address = "00000000110100" else
-						"010100" when char_address = "00000000110101" else
-						"001111" when char_address = "00000000110110" else
-						"010110" when char_address = "00000000110111" else
-						"001001" when char_address = "00000000111000" else
-						"000011" when char_address = "00000000111001" else
-						"010011" when char_address = "00000001010010" else
-						"001100" when char_address = "00000001010011" else
-						"001111" when char_address = "00000001010100" else
-						"000010" when char_address = "00000001010101" else
-						"001111" when char_address = "00000001010110" else
-						"000100" when char_address = "00000001010111" else
-						"000001" when char_address = "00000001011000" else
-						"001110" when char_address = "00000001011001" else
-						"001011" when char_address = "00000001011011" else
-						"001111" when char_address = "00000001011100" else
-						"010011" when char_address = "00000001011101" else
-						"010100" when char_address = "00000001011110" else
-						"001001" when char_address = "00000001011111" else
-						"000011" when char_address = "00000001100000" else
+  
+  
+    char_value <= "001101" when char_address - offset = "00000000101010" else
+						"001001" when char_address - offset = "00000000101011" else
+						"001100" when char_address - offset = "00000000101100" else
+						"001111" when char_address - offset = "00000000101101" else
+						"010011" when char_address - offset = "00000000101110" else
+						"001001" when char_address - offset = "00000000110000" else
+						"000111" when char_address - offset = "00000000110001" else
+						"001110" when char_address - offset = "00000000110010" else
+						"001010" when char_address - offset = "00000000110011" else
+						"000001" when char_address - offset = "00000000110100" else
+						"010100" when char_address - offset = "00000000110101" else
+						"001111" when char_address - offset = "00000000110110" else
+						"010110" when char_address - offset = "00000000110111" else
+						"001001" when char_address - offset = "00000000111000" else
+						"000011" when char_address - offset = "00000000111001" else
+						"010011" when char_address - offset = "00000001010010" else
+						"001100" when char_address - offset = "00000001010011" else
+						"001111" when char_address - offset = "00000001010100" else
+						"000010" when char_address - offset = "00000001010101" else
+						"001111" when char_address - offset = "00000001010110" else
+						"000100" when char_address - offset = "00000001010111" else
+						"000001" when char_address - offset = "00000001011000" else
+						"001110" when char_address - offset = "00000001011001" else
+						"001011" when char_address - offset = "00000001011011" else
+						"001111" when char_address - offset = "00000001011100" else
+						"010011" when char_address - offset = "00000001011101" else
+						"010100" when char_address - offset = "00000001011110" else
+						"001001" when char_address - offset = "00000001011111" else
+						"000011" when char_address - offset = "00000001100000" else
 						"100000";
+
+
+
+process(pix_clock_s, reset_n_i) begin
+		if(reset_n_i = '0') then
+			clk_counter <= (others => '0');
+			offset <= (others => '0');
+		elsif(rising_edge(pix_clock_s)) then
+			if(clk_counter = "1011111010111100001000000") then
+				clk_counter <= (others => '0');
+				if(offset = "1001011000000000000") then
+					offset <= (others => '0');
+				else
+					offset <= offset + "0000000000000000001";
+				end if;
+			else
+				clk_counter <= clk_counter + "0000000000000000000000001";
+			end if;	
+		end if;
+end process;
+	
   
   -- koristeci signale realizovati logiku koja pise po GRAPH_MEM
   --pixel_address
@@ -368,11 +402,35 @@ begin
 			end if;
 		end if;			
   end process;
+  
+  process(pix_clock_s, reset_n_i) begin
+		if(reset_n_i = '0') then
+			pix_clk_counter <= (others => '0');
+			pix_offset <= (others => '0');
+		elsif(rising_edge(pix_clock_s)) then
+			if(pix_clk_counter = "0001011111010111100001000") then
+				pix_clk_counter <= (others => '0');
+				if(pix_offset = "10010110000000") then
+					pix_offset <= (others => '0');
+				else
+					pix_offset <= pix_offset + "00000000000001";
+				end if;
+			else
+				pix_clk_counter <= pix_clk_counter + "0000000000000000000000001";
+			end if;	
+		end if;
+end process;
 
 
-	pixel_value <=	(others => '1') when pixel_address = "00000000000010000001" else
-						(others => '1') when pixel_address = "00000000000010010101"  else
-						(others => '1') when pixel_address = "00000000000010101001"  else
+	pixel_value <=	(others => '1') when pixel_address - pix_offset = "00000000000010000001" else
+						(others => '1') when pixel_address - pix_offset = "00000000000010010101"  else
+						(others => '1') when pixel_address - pix_offset = "00000000000010101001"  else
+						(others => '1') when pixel_address - pix_offset = "00000000000010111101"  else
+						(others => '1') when pixel_address - pix_offset = "00000000000011010001"  else
+						(others => '1') when pixel_address - pix_offset = "00000000000011100101"  else
+						(others => '1') when pixel_address - pix_offset = "00000000000011111001"  else
+						(others => '1') when pixel_address - pix_offset = "00000000000100001101"  else
+						(others => '1') when pixel_address - pix_offset = "00000000000100100001"  else
 						(others => '0');
   
 end rtl;
